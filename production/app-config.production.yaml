@@ -1,0 +1,22 @@
+app:
+  baseUrl: https://my-company-backstage.company.com
+
+backend:
+  baseUrl: https://my-company-backstage.company.com
+  listen: ':7007'
+  auth:
+    dangerouslyDisableDefaultAuthPolicy: true
+
+  cors:
+    origin: https://my-company-backstage.company.com
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+  # Use sqlite in production because the configs will always be generated
+  # or use postgres if you want the data persistent.
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+auth:
+  providers: {}

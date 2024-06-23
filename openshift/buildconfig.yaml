@@ -1,0 +1,15 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: backstage-for-home
+spec:
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/dperique/backstage-for-home.git'
+  strategy:
+    type: Docker
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'backstage-for-home:latest'

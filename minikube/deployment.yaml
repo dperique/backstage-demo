@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backstage-for-home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backstage-for-home
+  template:
+    metadata:
+      labels:
+        app: backstage-for-home
+    spec:
+      containers:
+      - name: backstage-for-home
+        image: docker.io/dperique/backstage-for-home:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7007
+        securityContext:
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+        readinessProbe:
+          httpGet:
+            port: 7007
+            path: /healthcheck
+        livenessProbe:
+          httpGet:
+            port: 7007
+            path: /healthcheck
+        volumeMounts:
+        - mountPath: /app/home_org
+          name: home-backstage-yamls
+      volumes:
+      - name: home-backstage-yamls
+        configMap:
+          name: home-backstage-yamls
+          optional: true

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backstage-for-home
+spec:
+  selector:
+    app: backstage-for-home
+  ports:
+  - protocol: TCP
+    port: 7007
+    targetPort: 7007

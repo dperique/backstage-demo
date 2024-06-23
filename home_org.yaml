@@ -1,0 +1,54 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: home-org
+  description: The Dennis Home Organization
+  links:
+  - url: http://www.dennishome.com/
+    title: Website
+  - url: https://docs.dennishome.com/
+    title: Dennis Home official docs
+spec:
+  type: organization
+  profile:
+    displayName: Dennis Home
+    email: info@dennis.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=Maggie&flip=true&backgroundColor=ffdfbf
+  children:
+  - llm-developer-group
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: home-groups
+  description: A collection of all Dennis Home teams
+spec:
+  targets:
+  - ./dperique.user.yaml
+  - ./home-group.group.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: dperique
+spec:
+  profile:
+    displayName: Dennis Periquet
+    email: dperique@gmail.com
+    picture: https://api.dicebear.com/8.x/rings/svg
+  memberOf:
+  - llm-developer-group
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: llm-developer-group
+  description: 'The group responsible for LLM related development'
+  links:
+  - url: https://github.com/dperique
+    title: 'The git repo'
+    icon: icon-placeholder-for-now
+spec:
+  type: team
+  parent: home-org
+  children: []

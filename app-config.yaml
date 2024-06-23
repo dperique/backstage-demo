@@ -1,0 +1,54 @@
+app:
+  title: Home Developer Portal
+  baseUrl: http://localhost:7007
+
+organization:
+  name: Dennis Home Developer Portal
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+
+  auth:
+    dangerouslyDisableDefaultAuthPolicy: true
+
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin: http://localhost:7007
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+integrations:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN}
+
+proxy:
+techdocs:
+  builder: 'local' # Alternatives - 'external'
+  generator:
+    runIn: 'docker' # Alternatives - 'local'
+  publisher:
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+
+auth:
+  providers: {}
+
+scaffolder:
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, Resource, Location]
+  locations:
+    - type: file
+      target: ./home_org/home_org.yaml
+      rules:
+        - allow: [User, Group]

@@ -1,0 +1,47 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: backstage-for-home
+spec:
+  replicas: 1
+  selector:
+    app: backstage-for-home
+  template:
+    metadata:
+      labels:
+        app: backstage-for-home
+    spec:
+      containers:
+      - name: backstage-for-home
+        image: image-registry.openshift-image-registry.svc:5000/backstage-for-home/backstage-for-home:latest
+        ports:
+        - containerPort: 7007
+          securityContext:
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+          readinessProbe:
+            httpGet:
+              port: 7007
+              path: /healthcheck
+          livenessProbe:
+            httpGet:
+              port: 7007
+              path: /healthcheck
+        volumeMounts:
+        - mountPath: /app/home_org
+          name: home-backstage-yamls
+      volumes:
+      - name: home-backstage-yamls
+        configMap:
+          name: home-backstage-yamls
+          optional: true
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      - backstage-for-home
+      from:
+        kind: ImageStreamTag
+        name: 'backstage-for-home:latest'
