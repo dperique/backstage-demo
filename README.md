@@ -142,6 +142,7 @@ Troubleshoot:
 
 * Outside of Openshift, manually build the image using the Dockerfile, make a container,
   compare it to a "working" pod using `podman run -it --rm --entrypoint /bin/bash <imageName>:latest`
+* In Openshift, there may be a ServiceAccount that needs to be associated with the Deployment, if this is missing you will get permission problems. Check by exec'ing into the pod and doing `ls -l /app`; you should be able to see the files. If not, you have a permission problem. With a permission problem, `node` will not be able to access the files to run backstage. This will manifest as a `Cannot find module` error. The migitation is to add the ServiceAccount. This may not occur when using podman to run backstage because the permissions there may be more open.
 
 ## Login to a node and look around
 
